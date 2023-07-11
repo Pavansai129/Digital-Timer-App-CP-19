@@ -1,0 +1,120 @@
+/* Write your CSS here */
+.app-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: linear-gradient(to right, #ffffff, #cffcf1);
+}
+.digital-timer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+}
+.timer-and-controls-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 80%;
+}
+.timer-status-bg-image-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url('https://assets.ccbp.in/frontend/react-js/digital-timer-elapsed-bg.png');
+  background-size: cover;
+  background-position: center;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  /* border: 1px solid red; */
+}
+
+.timer-and-timer-status-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-items: center;
+  background-color: #ffffff;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+.time {
+  font-family: 'Roboto';
+  font-weight: 700;
+  font-size: 20px;
+}
+.time-status {
+  font-family: 'Roboto';
+  font-weight: 700;
+  font-size: 20px;
+}
+.timer-controls-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.play-pause-reset-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.start-pause-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 30px;
+}
+.reset-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.set-timer-limit-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.timer-limit-control-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.image {
+  height: 50px;
+}
+.minus {
+  font-family: 'Roboto';
+  font-weight: 700;
+  font-size: 20px;
+  margin-right: 20px;
+}
+.number {
+  margin-right: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-image: linear-gradient(to right, #cffcf1, #00d9f5);
+}
+.plus {
+  font-family: 'Roboto';
+  font-weight: 700;
+  font-size: 20px;
+  margin-right: 20px;
+}
