@@ -4,7 +4,12 @@ import './index.css'
 class DigitalTimer extends Component {
   constructor(props) {
     super(props)
-    this.state = {isPaused: false, timerValue: 25}
+    this.state = {
+      isPaused: false,
+      timeInMinutes: 25,
+      timeInSeconds: '00',
+      isReset: false,
+    }
   }
 
   componentDidMount() {
@@ -12,15 +17,41 @@ class DigitalTimer extends Component {
   }
 
   toggleStartPauseText = () => {
-    this.setState(prevState => ({isPaused: !prevState.isPaused}))
+    this.setState(prevState => ({
+      isPaused: !prevState.isPaused,
+      isReset: false,
+    }))
   }
 
   inCreaseTimer = () => {
-    this.setState(prevState => ({timerValue: prevState.timerValue + 1}))
+    const {isPaused} = this.state
+    if (!isPaused) {
+      this.setState(prevState => ({
+        timeInMinutes: prevState.timeInMinutes + 1,
+        isReset: false,
+      }))
+    }
   }
 
   DecreaseTimer = () => {
-    this.setState(prevState => ({timerValue: prevState.timerValue - 1}))
+    const {isPaused} = this.state
+    if (!isPaused) {
+      this.setState(prevState => ({
+        timeInMinutes: prevState.timeInMinutes - 1,
+        isReset: false,
+      }))
+    }
+  }
+
+  resetTimer = () => {
+    const {isReset} = this.state
+    if (isReset === false) {
+      this.setState(prevState => ({
+        isPaused: false,
+        isReset: !prevState.isReset,
+        timeInMinutes: 25,
+      }))
+    }
   }
 
   render() {
@@ -31,7 +62,7 @@ class DigitalTimer extends Component {
       : 'https://assets.ccbp.in/frontend/react-js/play-icon-img.png'
     const altForPlayPauseIcon = isPaused ? 'play icon' : 'pause icon'
     const timerStatus = isPaused ? 'Running' : 'Paused'
-    const {timerValue} = this.state
+    const {timeInMinutes, timeInSeconds} = this.state
     return (
       <div className="app-container">
         <div className="digital-timer-container">
@@ -39,7 +70,9 @@ class DigitalTimer extends Component {
           <div className="timer-and-controls-container">
             <div className="timer-status-bg-image-container">
               <div className="timer-and-timer-status-container">
-                <h1 className="time">25:00</h1>
+                <h1 className="time">
+                  {timeInMinutes}:{timeInSeconds}
+                </h1>
                 <p className="time-status">{timerStatus}</p>
               </div>
             </div>
@@ -60,7 +93,11 @@ class DigitalTimer extends Component {
                   <p className="text">{startPauseText}</p>
                 </div>
                 <div className="reset-container">
-                  <button className="button" type="button">
+                  <button
+                    onClick={this.resetTimer}
+                    className="button"
+                    type="button"
+                  >
                     <img
                       src="https://assets.ccbp.in/frontend/react-js/reset-icon-img.png"
                       alt="reset icon"
@@ -80,7 +117,7 @@ class DigitalTimer extends Component {
                   >
                     -
                   </button>
-                  <p className="number">{timerValue}</p>
+                  <p className="number">{timeInMinutes}</p>
                   <button
                     onClick={this.inCreaseTimer}
                     type="button"
