@@ -27,28 +27,36 @@ class DigitalTimer extends Component {
             <div className="timer-controls-container">
               <div className="play-pause-reset-container">
                 <div className="start-pause-container">
-                  <img
-                    src="https://assets.ccbp.in/frontend/react-js/play-icon-img.png"
-                    alt="play"
-                    className="image"
-                  />
-                  <p>Start</p>
+                  <button className="button" type="button">
+                    <img
+                      src="https://assets.ccbp.in/frontend/react-js/play-icon-img.png"
+                      alt="play"
+                      className="image"
+                    />
+                  </button>
+                  <p className="text">Start</p>
                 </div>
                 <div className="reset-container">
-                  <img
-                    src="https://assets.ccbp.in/frontend/react-js/reset-icon-img.png"
-                    alt="play"
-                    className="image"
-                  />
-                  <p>Reset</p>
+                  <button className="button" type="button">
+                    <img
+                      src="https://assets.ccbp.in/frontend/react-js/reset-icon-img.png"
+                      alt="play"
+                      className="image"
+                    />
+                  </button>
+                  <p className="text">Reset</p>
                 </div>
               </div>
               <div className="set-timer-limit-container">
-                <p>Set Timer Limit</p>
+                <p className="text">Set Timer Limit</p>
                 <div className="timer-limit-control-container">
-                  <p className="minus">-</p>
+                  <button type="button" className="button minus">
+                    -
+                  </button>
                   <p className="number">25</p>
-                  <p className="plus">+</p>
+                  <button type="button" className="button plus">
+                    +
+                  </button>
                 </div>
               </div>
             </div>

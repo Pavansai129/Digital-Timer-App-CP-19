@@ -61,19 +61,20 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 20%;
 }
 .play-pause-reset-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 .start-pause-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-right: 30px;
 }
 .reset-container {
   display: flex;
@@ -96,11 +97,22 @@
 .image {
   height: 50px;
 }
+.text {
+  font-family: 'Roboto';
+  font-weight: 700;
+  font-size: 20px;
+}
+.button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
 .minus {
   font-family: 'Roboto';
   font-weight: 700;
   font-size: 20px;
-  margin-right: 20px;
+  margin-right: 5px;
 }
 .number {
   margin-right: 20px;
