@@ -5,105 +5,99 @@ class DigitalTimer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isPaused: false,
+      isTimerStarted: false,
       initialTimeInMinutes: 25,
-      timeInMinutes: 1,
+      timeInMinutes: 25,
       timeInSeconds: '00',
-      isReset: false,
     }
-  }
-
-  componentDidMount() {
-    console.log('component did mount called')
   }
 
   toggleStartPauseText = () => {
-    const {isPaused} = this.state
-    if (!isPaused) {
-      this.timerId = setInterval(this.countDown, 1000)
-    } else {
-      clearTimeout(this.timerId)
+    const {isTimerStarted} = this.state
+    if (!isTimerStarted) {
+      this.timerIntervalId = setInterval(this.countDown, 1000)
     }
-    this.setState(prevState => ({
-      isPaused: !prevState.isPaused,
-      isReset: false,
-    }))
+    if (isTimerStarted) {
+      clearTimeout(this.timerIntervalId)
+    }
+    this.setState(prevState => ({isTimerStarted: !prevState.isTimerStarted}))
   }
 
   inCreaseTimer = () => {
-    const {isPaused} = this.state
-    if (!isPaused) {
+    const {isTimerStarted, initialTimeInMinutes} = this.state
+    if (!isTimerStarted) {
+      const updatedTimeInMinutes = initialTimeInMinutes
       this.setState(prevState => ({
         initialTimeInMinutes: prevState.initialTimeInMinutes + 1,
-        isReset: false,
+        timeInMinutes: updatedTimeInMinutes + 1,
       }))
     }
   }
 
   DecreaseTimer = () => {
-    const {isPaused} = this.state
-    if (!isPaused) {
+    const {isTimerStarted, initialTimeInMinutes} = this.state
+    if (!isTimerStarted) {
+      const updatedTimeInMinutes = initialTimeInMinutes
       this.setState(prevState => ({
         initialTimeInMinutes: prevState.initialTimeInMinutes - 1,
-        isReset: false,
+        timeInMinutes:
+          updatedTimeInMinutes > 10
+            ? updatedTimeInMinutes - 1
+            : `0${updatedTimeInMinutes - 1}`,
       }))
     }
   }
 
   resetTimer = () => {
-    const {isReset} = this.state
-    clearTimeout(this.timerId)
-    if (isReset === false) {
-      this.setState(prevState => ({
-        isPaused: false,
-        isReset: !prevState.isReset,
-        initialTimeInMinutes: 25,
-        timeInSeconds: '00',
-      }))
-    }
+    clearTimeout(this.timerIntervalId)
+    this.setState({
+      isTimerStarted: false,
+      initialTimeInMinutes: 25,
+      timeInMinutes: 25,
+      timeInSeconds: '00',
+    })
   }
 
   countDown = () => {
-    const {timeInSeconds, timeInMinutes} = this.state
-    let updatedTimeInSeconds
-    let updatedTimeInMinutes
-    if (timeInMinutes === '00' && timeInSeconds === '00') {
-      this.resetTimer()
-    } else if (timeInMinutes !== '00' || timeInSeconds !== '00') {
-      if (timeInSeconds === '00') {
-        updatedTimeInSeconds = 12
-        updatedTimeInMinutes = timeInMinutes - 1
-      } else {
-        updatedTimeInSeconds = timeInSeconds - 1
-        if (timeInSeconds === '00') {
-          updatedTimeInMinutes = timeInMinutes - 1
-        } else {
-          updatedTimeInMinutes = timeInMinutes
+    let {timeInSeconds, timeInMinutes} = this.state
+    if (timeInSeconds === '00') {
+      if (timeInMinutes !== '00') {
+        timeInSeconds = 13
+        if (timeInMinutes > 10) {
+          timeInMinutes -= 1
+        } else if (timeInMinutes < 11) {
+          timeInMinutes = `0${timeInMinutes - 1}`
         }
+      } else if (timeInMinutes === '00') {
+        clearTimeout(this.timerIntervalId)
+        this.setState({
+          isTimerStarted: false,
+          initialTimeInMinutes: 25,
+          timeInMinutes: 25,
+          timeInSeconds: '00',
+        })
       }
+    } else if (timeInSeconds > 10) {
+      timeInSeconds -= 1
+    } else if (timeInSeconds < 11) {
+      timeInSeconds = `0${timeInSeconds - 1}`
     }
-    this.setState({
-      timeInSeconds:
-        updatedTimeInSeconds < 10
-          ? `0${updatedTimeInSeconds}`
-          : updatedTimeInSeconds,
-      timeInMinutes: updatedTimeInMinutes,
-    })
+    this.setState({timeInSeconds, timeInMinutes})
   }
 
   render() {
     const {
-      isPaused,
-      timeInMinutes,
+      isTimerStarted,
       initialTimeInMinutes,
+      timeInMinutes,
       timeInSeconds,
     } = this.state
-    const startPauseText = isPaused ? 'Pause' : 'Start'
-    const playPauseIcon = isPaused
+    const startPauseText = isTimerStarted ? 'Pause' : 'Start'
+    const playPauseIcon = isTimerStarted
       ? 'https://assets.ccbp.in/frontend/react-js/pause-icon-img.png'
       : 'https://assets.ccbp.in/frontend/react-js/play-icon-img.png'
-    const altForPlayPauseIcon = isPaused ? 'play icon' : 'pause icon'
-    const timerStatus = isPaused ? 'Running' : 'Paused'
+    const altForPlayPauseIcon = isTimerStarted ? 'pause icon' : 'play icon'
+    const timerStatus = isTimerStarted ? 'Running' : 'Paused'
     return (
       <div className="app-container">
         <div className="digital-timer-container">
@@ -130,8 +124,9 @@ class DigitalTimer extends Component {
                       alt={altForPlayPauseIcon}
                       className="image"
                     />
+
+                    <p className="text">{startPauseText}</p>
                   </button>
-                  <p className="text">{startPauseText}</p>
                 </div>
                 <div className="reset-container">
                   <button
@@ -144,8 +139,8 @@ class DigitalTimer extends Component {
                       alt="reset icon"
                       className="image"
                     />
+                    <p className="text">Reset</p>
                   </button>
-                  <p className="text">Reset</p>
                 </div>
               </div>
               <div className="set-timer-limit-container">
