@@ -6,7 +6,8 @@ class DigitalTimer extends Component {
     super(props)
     this.state = {
       isPaused: false,
-      timeInMinutes: 25,
+      initialTimeInMinutes: 25,
+      timeInMinutes: 1,
       timeInSeconds: '00',
       isReset: false,
     }
@@ -17,6 +18,12 @@ class DigitalTimer extends Component {
   }
 
   toggleStartPauseText = () => {
+    const {isPaused} = this.state
+    if (!isPaused) {
+      this.timerId = setInterval(this.countDown, 1000)
+    } else {
+      clearTimeout(this.timerId)
+    }
     this.setState(prevState => ({
       isPaused: !prevState.isPaused,
       isReset: false,
@@ -27,7 +34,7 @@ class DigitalTimer extends Component {
     const {isPaused} = this.state
     if (!isPaused) {
       this.setState(prevState => ({
-        timeInMinutes: prevState.timeInMinutes + 1,
+        initialTimeInMinutes: prevState.initialTimeInMinutes + 1,
         isReset: false,
       }))
     }
@@ -37,7 +44,7 @@ class DigitalTimer extends Component {
     const {isPaused} = this.state
     if (!isPaused) {
       this.setState(prevState => ({
-        timeInMinutes: prevState.timeInMinutes - 1,
+        initialTimeInMinutes: prevState.initialTimeInMinutes - 1,
         isReset: false,
       }))
     }
@@ -45,24 +52,58 @@ class DigitalTimer extends Component {
 
   resetTimer = () => {
     const {isReset} = this.state
+    clearTimeout(this.timerId)
     if (isReset === false) {
       this.setState(prevState => ({
         isPaused: false,
         isReset: !prevState.isReset,
-        timeInMinutes: 25,
+        initialTimeInMinutes: 25,
+        timeInSeconds: '00',
       }))
     }
   }
 
+  countDown = () => {
+    const {timeInSeconds, timeInMinutes} = this.state
+    let updatedTimeInSeconds
+    let updatedTimeInMinutes
+    if (timeInMinutes === '00' && timeInSeconds === '00') {
+      this.resetTimer()
+    } else if (timeInMinutes !== '00' || timeInSeconds !== '00') {
+      if (timeInSeconds === '00') {
+        updatedTimeInSeconds = 12
+        updatedTimeInMinutes = timeInMinutes - 1
+      } else {
+        updatedTimeInSeconds = timeInSeconds - 1
+        if (timeInSeconds === '00') {
+          updatedTimeInMinutes = timeInMinutes - 1
+        } else {
+          updatedTimeInMinutes = timeInMinutes
+        }
+      }
+    }
+    this.setState({
+      timeInSeconds:
+        updatedTimeInSeconds < 10
+          ? `0${updatedTimeInSeconds}`
+          : updatedTimeInSeconds,
+      timeInMinutes: updatedTimeInMinutes,
+    })
+  }
+
   render() {
-    const {isPaused} = this.state
+    const {
+      isPaused,
+      timeInMinutes,
+      initialTimeInMinutes,
+      timeInSeconds,
+    } = this.state
     const startPauseText = isPaused ? 'Pause' : 'Start'
     const playPauseIcon = isPaused
       ? 'https://assets.ccbp.in/frontend/react-js/pause-icon-img.png'
       : 'https://assets.ccbp.in/frontend/react-js/play-icon-img.png'
     const altForPlayPauseIcon = isPaused ? 'play icon' : 'pause icon'
     const timerStatus = isPaused ? 'Running' : 'Paused'
-    const {timeInMinutes, timeInSeconds} = this.state
     return (
       <div className="app-container">
         <div className="digital-timer-container">
@@ -117,7 +158,7 @@ class DigitalTimer extends Component {
                   >
                     -
                   </button>
-                  <p className="number">{timeInMinutes}</p>
+                  <p className="number">{initialTimeInMinutes}</p>
                   <button
                     onClick={this.inCreaseTimer}
                     type="button"
