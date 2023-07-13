@@ -14,37 +14,55 @@ class DigitalTimer extends Component {
 
   toggleStartPauseText = () => {
     const {isTimerStarted} = this.state
-    if (!isTimerStarted) {
-      this.timerIntervalId = setInterval(this.countDown, 1000)
-    }
-    if (isTimerStarted) {
+    if (isTimerStarted === true) {
       clearTimeout(this.timerIntervalId)
+      console.log('timer stopped')
+      this.setState(prevState => ({isTimerStarted: !prevState.isTimerStarted}))
     }
-    this.setState(prevState => ({isTimerStarted: !prevState.isTimerStarted}))
+    if (isTimerStarted === false) {
+      this.timerIntervalId = setInterval(this.countDown, 1000)
+      console.log('timer started')
+      this.setState(prevState => ({isTimerStarted: !prevState.isTimerStarted}))
+    }
   }
 
   inCreaseTimer = () => {
     const {isTimerStarted, initialTimeInMinutes} = this.state
-    if (!isTimerStarted) {
-      const updatedTimeInMinutes = initialTimeInMinutes
-      this.setState(prevState => ({
-        initialTimeInMinutes: prevState.initialTimeInMinutes + 1,
-        timeInMinutes: updatedTimeInMinutes + 1,
-      }))
+    if (isTimerStarted === false) {
+      let updatedTimeInMinutes = initialTimeInMinutes
+      if (updatedTimeInMinutes >= 0 && updatedTimeInMinutes < 9) {
+        updatedTimeInMinutes = `0${updatedTimeInMinutes + 1}`
+        this.setState(prevState => ({
+          initialTimeInMinutes: prevState.initialTimeInMinutes + 1,
+          timeInMinutes: updatedTimeInMinutes,
+        }))
+      } else if (updatedTimeInMinutes >= 9) {
+        updatedTimeInMinutes += 1
+        this.setState(prevState => ({
+          initialTimeInMinutes: prevState.initialTimeInMinutes + 1,
+          timeInMinutes: updatedTimeInMinutes,
+        }))
+      }
     }
   }
 
   DecreaseTimer = () => {
     const {isTimerStarted, initialTimeInMinutes} = this.state
-    if (!isTimerStarted) {
-      const updatedTimeInMinutes = initialTimeInMinutes
-      this.setState(prevState => ({
-        initialTimeInMinutes: prevState.initialTimeInMinutes - 1,
-        timeInMinutes:
-          updatedTimeInMinutes > 10
-            ? updatedTimeInMinutes - 1
-            : `0${updatedTimeInMinutes - 1}`,
-      }))
+    if (isTimerStarted === false) {
+      let updatedTimeInMinutes = initialTimeInMinutes
+      if (updatedTimeInMinutes > 0 && updatedTimeInMinutes < 11) {
+        updatedTimeInMinutes = `0${updatedTimeInMinutes - 1}`
+        this.setState(prevState => ({
+          initialTimeInMinutes: prevState.initialTimeInMinutes - 1,
+          timeInMinutes: updatedTimeInMinutes,
+        }))
+      } else if (updatedTimeInMinutes > 10) {
+        updatedTimeInMinutes -= 1
+        this.setState(prevState => ({
+          initialTimeInMinutes: prevState.initialTimeInMinutes - 1,
+          timeInMinutes: updatedTimeInMinutes,
+        }))
+      }
     }
   }
 
@@ -61,28 +79,23 @@ class DigitalTimer extends Component {
   countDown = () => {
     let {timeInSeconds, timeInMinutes} = this.state
     if (timeInSeconds === '00') {
-      if (timeInMinutes !== '00') {
-        timeInSeconds = 13
-        if (timeInMinutes > 10) {
-          timeInMinutes -= 1
-        } else if (timeInMinutes < 11) {
-          timeInMinutes = `0${timeInMinutes - 1}`
-        }
-      } else if (timeInMinutes === '00') {
+      if (timeInMinutes === '00') {
+        timeInMinutes = 25
         clearTimeout(this.timerIntervalId)
-        this.setState({
-          isTimerStarted: false,
-          initialTimeInMinutes: 25,
-          timeInMinutes: 25,
-          timeInSeconds: '00',
-        })
+        this.resetTimer()
+      } else if (timeInMinutes > 10) {
+        timeInMinutes -= 1
+        timeInSeconds = 59
+      } else if (timeInMinutes >= 0 && timeInMinutes < 11) {
+        timeInMinutes = `0${timeInMinutes - 1}`
+        timeInSeconds = 59
       }
     } else if (timeInSeconds > 10) {
       timeInSeconds -= 1
-    } else if (timeInSeconds < 11) {
+    } else if (timeInSeconds >= 0 && timeInSeconds < 11) {
       timeInSeconds = `0${timeInSeconds - 1}`
     }
-    this.setState({timeInSeconds, timeInMinutes})
+    this.setState({timeInMinutes, timeInSeconds})
   }
 
   render() {
