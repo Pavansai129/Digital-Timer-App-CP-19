@@ -1,0 +1,58 @@
+Total:25
+25
+0
+Digital Timer App tests
+
+25
+25
+0
+Page should consist of HTML heading element with text content as "Digital Timer"
+128 ms 
+Page should initially consist of HTML heading element with text content as Timer limit value "25:00"
+43 ms 
+Page should initially consist of HTML paragraph element with text content as "Paused"
+11 ms 
+Page should consist of HTML image element with src attribute value as the URL for Play icon and alt text as "play icon"
+66 ms 
+Page should consist of HTML button element with text content as "Start"
+81 ms 
+Page should consist of HTML image element with src attribute value as the URL for Reset icon and alt text as "reset icon"
+43 ms 
+Page should consist of HTML button element with text content as "Reset"
+70 ms 
+Page should consist of HTML paragraph element with text content as "Set Timer limit"
+7 ms 
+Page should consist of HTML paragraph element with text content as "25"
+7 ms 
+Page should consist of HTML button element with text content as "+" (plus)
+65 ms 
+Page should consist of HTML button element with text content as "-" (minus)
+62 ms 
+When clicked on Start button the page should consist of HTML button element with text content as "Pause" by replacing the "Start"
+214 ms 
+When clicked on Start button the page should consist of HTML image element with src as URL for pause icon and alt text as "pause icon"
+125 ms 
+When clicked on Start button the Timer should start running backward and the page should consist of HTML heading element with text content displaying the elapsed time
+327 ms 
+When clicked on Start button the page should consist of HTML paragraph element with text content as "Running" by replacing the "Paused" text
+67 ms 
+When clicked on Pause button the page should consist of HTML button element with text content as "Start" by replacing the "Pause" text
+235 ms 
+When clicked on Pause button the page should consist of HTML image element with src as URL for play icon and alt text as "play icon"
+179 ms 
+When clicked on Pause button the Timer should stop running backward and the page should consist of HTML heading element with text content displaying the remaining time
+233 ms 
+When clicked on Pause button the page should consist of HTML paragraph element with text content as "Paused" by replacing the "Running" text
+138 ms 
+When clicked on Start button after pausing the timer then the Timer should start again
+363 ms 
+When the timer is started and Reset button is clicked the timer should stop and reset to default value
+233 ms 
+When the HTML button element with "+" as text content is clicked then the timer limit value should be incremented by one
+107 ms 
+When the HTML button element with "-" as text content is clicked then the timer limit value should be decremented by one
+110 ms 
+When the Timer is running and the HTML button with text content as "+" is clicked then the timer limit value should not increase
+116 ms 
+When the Timer is running and the HTML button with text content as "-" is clicked then the timer limit value should not decrease
+113 ms 
