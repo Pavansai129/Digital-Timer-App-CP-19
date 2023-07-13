@@ -50,7 +50,7 @@ class DigitalTimer extends Component {
     const {isTimerStarted, initialTimeInMinutes} = this.state
     if (isTimerStarted === false) {
       let updatedTimeInMinutes = initialTimeInMinutes
-      if (updatedTimeInMinutes > 0 && updatedTimeInMinutes < 11) {
+      if (updatedTimeInMinutes > 1 && updatedTimeInMinutes < 11) {
         updatedTimeInMinutes = `0${updatedTimeInMinutes - 1}`
         this.setState(prevState => ({
           initialTimeInMinutes: prevState.initialTimeInMinutes - 1,
